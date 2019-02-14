@@ -1,0 +1,19 @@
+﻿<Window x:Class="Opgave4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="WPFOpgave4" Height="400" Width="550">
+    <Grid>
+        <Label Content="Naam:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50"/>
+        <TextBox Name="txtBoxNaam" HorizontalAlignment="Right" VerticalAlignment="Top" Width="350" Height="30" Margin="50" />
+        <Label Content="Adres:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50 100"/>
+        <TextBox Name="txtBoxAdres" HorizontalAlignment="Right" VerticalAlignment="Top" Width="350" Height="30" Margin="50 100" />
+        <Label Content="Postcode:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50 150"/>
+        <TextBox Name="txtBoxPostcode" HorizontalAlignment="Right" VerticalAlignment="Top" Width="350" Height="30" Margin="50 150" />
+        <Label Content="Plaats:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50 200 0 0"/>
+        <TextBox Name="txtBoxPlaats" HorizontalAlignment="Right" VerticalAlignment="Top" Width="350" Height="30" Margin="50 200 50 0" />
+        <Button Name="buttonToevoegen" Content="Toevoegen" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50 80" Width="80" Height="30" Click="ButtonToevoegen_Click" />
+        <Button Name="buttonEindejaarskorting" Content="Eindejaarskorting" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 80 30 80" Width="230" Height="30" Click="ButtonEindejaarskorting_Click" />
+        <Button Name="buttonVervangLeverancier" Content="Vervang leverancier" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 80 50 80" Width="110" Height="30" Click="ButtonVervangLeverancier_Click" />
+        <Label Name="labelStatus" Content="" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="450" Height="30" Margin="50 30" />
+    </Grid>
+</Window>

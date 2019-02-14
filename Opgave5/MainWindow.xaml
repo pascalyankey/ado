@@ -1,0 +1,11 @@
+﻿<Window x:Class="Opgave5.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="WPFOpgave5" Height="350" Width="350">
+    <Grid>
+        <Label Content="Soort:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50 80"/>
+        <TextBox Name="txtBoxSoort" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="25" Margin="50 80" />
+        <Button Name="buttonBerekenGemiddeldeKostprijs" Content="Bereken gemiddelde kostprijs" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Margin="0 0 50 150" Width="240" Height="25" Click="ButtonBerekenGemiddeldeKostprijs_Click" />
+        <Label Name="labelStatus" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="270" Height="30" Margin="50 0 0 60" />
+    </Grid>
+</Window>
