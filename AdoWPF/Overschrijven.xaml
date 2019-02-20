@@ -1,0 +1,15 @@
+﻿<Window x:Class="AdoWPF.Overschrijven"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Overschrijven" Height="350" Width="350">
+    <Grid>
+        <Label Content="Van Rekening Nr.:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50"/>
+        <TextBox Name="textBoxVanRekNr" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="25" Margin="20 50" />
+        <Label Content="Naar Rekening Nr.:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50 100"/>
+        <TextBox Name="textBoxNaarRekNr" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="25" Margin="20 100" />
+        <Label Content="Bedrag:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50 150 20 0"/>
+        <TextBox Name="textBoxBedrag" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="25" Margin="20 150 20 0" />
+        <Button Name="buttonOverschrijven" Content="Overschrijven" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Margin="20 100 20 90" Width="150" Height="25" Click="ButtonOverschrijven_Click" />
+        <Label Name="labelStatus" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="250" Height="30" Margin="50 0 0 40" />
+    </Grid>
+</Window>

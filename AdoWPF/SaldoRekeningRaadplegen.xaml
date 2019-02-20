@@ -1,0 +1,11 @@
+﻿<Window x:Class="AdoWPF.SaldoRekeningRaadplegen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SaldoRekeningRaadplegen" Height="300" Width="350">
+    <Grid>
+        <Label Content="Rekening Nr.:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50"/>
+        <TextBox Name="textBoxRekeningNr" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="25" Margin="20 50" />
+        <Button Name="buttonSaldo" Content="Saldo" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Margin="20 0 20 130" Width="150" Height="25" Click="ButtonSaldo_Click" />
+        <Label Name="labelStatus" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="270" Height="30" Margin="50 0 0 60" />
+    </Grid>
+</Window>

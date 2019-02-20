@@ -1,0 +1,20 @@
+﻿<Window x:Class="AdoWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AdoWPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Button x:Name="buttonBieren" Content="Bieren openen" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" Margin="20" Click="buttonBieren_Click"/>
+        <Label x:Name="labelStatus" Content="" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="50"/>
+        <Button x:Name="buttonBonus" Content="Bonus op alle rekeningen" HorizontalAlignment="Center" VerticalAlignment="Top" Width="150" Margin="100" Click="ButtonBonus_Click"/>
+        <Label Content="RekeningNr" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="50"/>
+        <TextBox Name="textBoxRekeningNr" Width="120" Height="30" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 50 90 50"></TextBox>
+        <Label Content="Te storten" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 100 0 10"/>
+        <TextBox Name="textBoxTeStorten" Width="120" Height="30" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 100 90 10"></TextBox>
+        <Button x:Name="buttonStorten" Content="Storten" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="150" Margin="50" Click="ButtonStorten_Click"/>
+
+    </Grid>
+</Window>
