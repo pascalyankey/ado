@@ -31,14 +31,7 @@ namespace Opgave7
             try
             {
                 var manager = new LeveranciersManager();
-                if (manager.Toevoegen(txtBoxNaam.Text, txtBoxAdres.Text, txtBoxPostcode.Text, txtBoxPlaats.Text) == 1)
-                {
-                    labelStatus.Content = "nieuwe leverancier is toegevoegd";
-                }
-                else
-                {
-                    labelStatus.Content = "toevoegen van leverancier mislukt";
-                }
+                labelStatus.Content = "Leverancier met nummer " + manager.Toevoegen(txtBoxNaam.Text, txtBoxAdres.Text, txtBoxPostcode.Text, txtBoxPlaats.Text).ToString() + " is toegevoegd";
             }
             catch (Exception ex)
             {

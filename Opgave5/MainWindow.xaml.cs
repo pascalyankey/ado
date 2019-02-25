@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ConnectieDLL;
 
-namespace Opgave5
+namespace Opgave8
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

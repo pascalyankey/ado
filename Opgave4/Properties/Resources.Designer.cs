@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Opgave4.Properties
+namespace Opgave7.Properties
 {
 
 

@@ -42,7 +42,8 @@ namespace ConnectieDLL
                     comToevoegen.Parameters.Add(parWoonplaats);
 
                     conTuincentrum.Open();
-                    return comToevoegen.ExecuteNonQuery();
+                    Int32 levNr = Convert.ToInt32(comToevoegen.ExecuteScalar());
+                    return levNr;
                 }
             }
         }

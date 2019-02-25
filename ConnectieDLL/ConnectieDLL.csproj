@@ -44,8 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LeveranciersManager.cs" />
+    <Compile Include="Plant.cs" />
+    <Compile Include="Soort.cs" />
     <Compile Include="PlantenManager.cs" />
     <Compile Include="PlantInfo.cs" />
+    <Compile Include="SoortenManager.cs" />
     <Compile Include="TuincentrumDbManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
