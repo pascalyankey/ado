@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:AdoGemeenschap="clr-namespace:AdoGemeenschap;assembly=AdoGemeenschap"
         xmlns:local="clr-namespace:AdoWPF"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
         mc:Ignorable="d"
         Title="OverzichtBrouwers" SizeToContent="Width" Loaded="Window_Loaded">
     <Window.Resources>
@@ -36,17 +38,22 @@
                 <Button Content="Go!" Name="goButton" Width="Auto" Background="BlanchedAlmond" FontWeight="Bold" Click="goButton_Click"></Button>
                 <TextBox HorizontalAlignment="Left" Name="textBoxZoeken" Width="120" AcceptsReturn="False" KeyUp="TextBoxZoeken_KeyUp" />
                 <Button Content="Zoeken" HorizontalAlignment="Left" Name="buttonZoeken" Width="Auto" Background="BlanchedAlmond" FontWeight="Bold" Margin="0,0,0,-0.2" Height="29" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.507" Click="ButtonZoeken_Click" />
-                <CheckBox Name="checkBoxPostcode0" Content="Poscode 0 ok" VerticalAlignment="Center" Checked="CheckBoxPostcode0_Checked" ></CheckBox>
+                <Button Height="28" Name="buttonSave" Width="28" Click="ButtonSave_Click">
+                    <Image Source=".\Images\SaveHL.bmp"></Image>
+                </Button>
+                <Label Content="Postcode filter:"></Label>
+                <ComboBox Name="comboBoxPostCode" SelectionChanged="ComboBoxPostCode_SelectionChanged"></ComboBox>
+                <CheckBox Name="checkBoxPostcode0" Content="Postcode 0 ok" VerticalAlignment="Center" Checked="CheckBoxPostcode0_Checked" ></CheckBox>
             </StackPanel>
         </Border>
         <Border Height="120" Background="SkyBlue" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom" DataContext="{StaticResource brouwerViewSource}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="4" Height="120">
-                <ListBox Height="100" HorizontalAlignment="Left" Margin="0,0,0,0" Name="listBoxBrouwers" VerticalAlignment="Top" Width="120" ItemsSource="{Binding}" DisplayMemberPath="Naam"/>
+                <ListBox Height="100" HorizontalAlignment="Left" Margin="0,0,0,0" Name="listBoxBrouwers" VerticalAlignment="Top" Width="120" ItemsSource="{Binding}" DisplayMemberPath="Naam" PreviewMouseDown="TestOpFouten_PreviewMouseDown"/>
             </StackPanel>
         </Border>
         <Border Height="120" Background="SkyBlue" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom" >
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="4" Height="120">
-                <Grid DataContext="{StaticResource brouwerViewSource}" HorizontalAlignment="Left" Name="gridDetail" VerticalAlignment="Top">
+                <Grid DataContext="{StaticResource brouwerViewSource}" HorizontalAlignment="Left" Name="gridDetail" VerticalAlignment="Top" PreviewMouseDown="TestOpFouten_PreviewMouseDown">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
@@ -79,7 +86,15 @@
                     <Label Content="Gemeente:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
                     <TextBox Grid.Column="1" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="3" Name="gemeenteTextBox" Text="{Binding Path=Gemeente, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Center" Width="120" />
                     <Label Content="Omzet:" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
-                    <TextBox Grid.Column="3" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="3" Name="omzetTextBox" Text="{Binding Path=Omzet, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Center" Width="120" />
+                    <TextBox Grid.Column="3" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="3" Name="omzetTextBox" VerticalAlignment="Center" Width="120" Validation.ErrorTemplate="{StaticResource validationTemplate}" Style="{StaticResource textBoxInError}">
+                        <TextBox.Text>
+                            <Binding Path="Omzet" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged" ValidatesOnNotifyDataErrors="True" Mode="TwoWay" ConverterCulture="{x:Static glob:CultureInfo.CurrentCulture}" StringFormat="c" TargetNullValue="{x:Static sys:String.Empty}">
+                                <Binding.ValidationRules>
+                                    <local:IngevuldGroterDanNul ValidatesOnTargetUpdated="True" ValidationStep="RawProposedValue" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox> 
                 </Grid>
             </StackPanel>
         </Border>
@@ -99,7 +114,7 @@
                         </DataGridTextColumn.Binding>
                     </DataGridTextColumn>
                     <DataGridTextColumn x:Name="gemeenteColumn" Header="Gemeente" Binding="{Binding Gemeente}"/>
-                    <DataGridTextColumn x:Name="omzetColumn" Header="Omzet" Binding="{Binding Omzet}"/>
+                    <DataGridTextColumn x:Name="omzetColumn" Header="Omzet" Binding="{Binding Omzet, UpdateSourceTrigger=PropertyChanged, TargetNullValue={x:Static sys:String.Empty}, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}, StringFormat=c}"/>
                 </DataGrid.Columns>
                 <DataGrid.RowValidationRules>
                     <local:PostcodeRangeRule ValidationStep="UpdatedValue"/>

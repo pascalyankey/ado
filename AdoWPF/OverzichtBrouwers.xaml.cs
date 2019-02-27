@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,18 +23,44 @@ namespace AdoWPF
     public partial class OverzichtBrouwers : Window
     {
         private CollectionViewSource brouwerViewSource;
+        public ObservableCollection<Brouwer> brouwersOb = new ObservableCollection<Brouwer>();
+        public List<Brouwer> OudeBrouwers = new List<Brouwer>();
+        public List<Brouwer> NieuweBrouwers = new List<Brouwer>();
+        public List<Brouwer> GewijzigdeBrouwers = new List<Brouwer>();
         public OverzichtBrouwers()
         {
             InitializeComponent();
+        }
+
+        void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+            {
+                foreach (Brouwer oudeBrouwer in e.OldItems)
+                {
+                    OudeBrouwers.Add(oudeBrouwer);
+                }
+            }
+            if (e.NewItems != null)
+            {
+                foreach (Brouwer nieuweBrouwer in e.NewItems)
+                {
+                    NieuweBrouwers.Add(nieuweBrouwer);
+                }
+            }
+            labelTotalRowCount.Content = brouwerDataGrid.Items.Count;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             VulDeGrid();
             textBoxZoeken.Focus();
-        }
 
-        public List<Brouwer> brouwersOb = new List<Brouwer>();
+            var nummers = (from b in brouwersOb orderby b.Postcode select b.Postcode.ToString()).Distinct().ToList();
+            nummers.Insert(0, "alles");
+            comboBoxPostCode.ItemsSource = nummers;
+            comboBoxPostCode.SelectedIndex = 0;
+        }
 
         private void VulDeGrid()
         {
@@ -42,6 +70,7 @@ namespace AdoWPF
             brouwerViewSource.Source = brouwersOb;
             GoUpdate();
             labelTotalRowCount.Content = brouwerDataGrid.Items.Count;
+            brouwersOb.CollectionChanged += this.OnCollectionChanged;
         }
 
         private void ButtonZoeken_Click(object sender, RoutedEventArgs e)
@@ -85,8 +114,8 @@ namespace AdoWPF
         {
             goToPreviousButton.IsEnabled = !(brouwerViewSource.View.CurrentPosition == 0);
             goToFirstButton.IsEnabled = !(brouwerViewSource.View.CurrentPosition == 0);
-            goToNextButton.IsEnabled = !(brouwerViewSource.View.CurrentPosition == brouwerDataGrid.Items.Count - 1);
-            goToLastButton.IsEnabled = !(brouwerViewSource.View.CurrentPosition == brouwerDataGrid.Items.Count - 1);
+            goToNextButton.IsEnabled = !(brouwerViewSource.View.CurrentPosition == brouwerDataGrid.Items.Count - 2);
+            goToLastButton.IsEnabled = !(brouwerViewSource.View.CurrentPosition == brouwerDataGrid.Items.Count - 2);
 
             if (brouwerDataGrid.Items.Count != 0)
             {
@@ -154,13 +183,119 @@ namespace AdoWPF
             bool foutGevonden = false;
             foreach (var c in gridDetail.Children)
             {
-                if (Validation.GetHasError((DependencyObject)c))
+                if (c is AdornerDecorator)
+                {
+                    if (Validation.GetHasError(((AdornerDecorator)c).Child))
+                    {
+                        foutGevonden = true;
+                    }
+                }
+                else if (Validation.GetHasError((DependencyObject)c))
                 {
                     foutGevonden = true;
                 }
             }
+
+            foreach (var c in brouwerDataGrid.ItemsSource)
+            {
+                var d = brouwerDataGrid.ItemContainerGenerator.ContainerFromItem(c);
+                if (d is DataGridRow)
+                {
+                    if (Validation.GetHasError(d))
+                    {
+                        foutGevonden = true;
+                    }
+                }
+            }
+
             if (foutGevonden)
                 e.Handled = true;
+        }
+
+        private void ComboBoxPostCode_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboBoxPostCode.SelectedIndex == 0)
+                brouwerDataGrid.Items.Filter = null;
+            else
+                brouwerDataGrid.Items.Filter = new Predicate<object>(PostCodeFilter);
+            GoUpdate();
+            labelTotalRowCount.Content = brouwerDataGrid.Items.Count - 1;
+        }
+
+        public bool PostCodeFilter(object br)
+        {
+            Brouwer b = br as Brouwer;
+            bool result = (b.Postcode == Convert.ToInt16(comboBoxPostCode.SelectedValue));
+            return result;
+        }
+
+        private void ButtonSave_Click(object sender, RoutedEventArgs e)
+        {
+            brouwerDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+            var resultaatBrouwers = new List<Brouwer>();
+            var manager = new BrouwerManager();
+            if (OudeBrouwers.Count() != 0)
+            {
+                resultaatBrouwers = manager.SchrijfVerwijderingen(OudeBrouwers);
+                if (resultaatBrouwers.Count > 0)
+                {
+                    StringBuilder boodschap = new StringBuilder();
+                    boodschap.Append("Niet verwijderd: \n");
+                    foreach (var b in resultaatBrouwers)
+                    {
+                        boodschap.Append("Nummer: " + b.BrouwerNr + " : " + b.Naam + " niet\n");
+                    }
+                    MessageBox.Show(boodschap.ToString());
+                }
+            }
+            MessageBox.Show(OudeBrouwers.Count - resultaatBrouwers.Count + " brouwer(s) verwijderd in de database", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            resultaatBrouwers.Clear();
+            if (NieuweBrouwers.Count() != 0)
+            {
+                resultaatBrouwers = manager.SchrijfToevoegingen(NieuweBrouwers);
+                if (resultaatBrouwers.Count > 0)
+                {
+                    StringBuilder boodschap = new StringBuilder();
+                    boodschap.Append("Niet toegevoegd: \n");
+                    foreach (var b in resultaatBrouwers)
+                    {
+                        boodschap.Append("Nummer: " + b.BrouwerNr + " : " + b.Naam + " niet\n");
+                    }
+                    MessageBox.Show(boodschap.ToString());
+                }
+            }
+            MessageBox.Show(NieuweBrouwers.Count - resultaatBrouwers.Count + " brouwer(s) toegevoegd aan de database", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            foreach (Brouwer b in brouwersOb)
+            {
+                if ((b.Changed == true) && (b.BrouwerNr != 0))
+                    GewijzigdeBrouwers.Add(b);
+                b.Changed = false;
+            }
+
+            resultaatBrouwers.Clear();
+            if (GewijzigdeBrouwers.Count() != 0)
+            {
+                resultaatBrouwers = manager.SchrijfWijzigingen(GewijzigdeBrouwers);
+                if (resultaatBrouwers.Count > 0)
+                {
+                    StringBuilder boodschap = new StringBuilder();
+                    boodschap.Append("Niet gewijzigd: \n");
+                    foreach (var b in resultaatBrouwers)
+                    {
+                        boodschap.Append("Nummer: " + b.BrouwerNr + " : " + b.Naam + " niet\n");
+                    }
+                    MessageBox.Show(boodschap.ToString());
+                }
+            }
+            MessageBox.Show(GewijzigdeBrouwers.Count - resultaatBrouwers.Count + " brouwer(s) gewijzigd in de database", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            VulDeGrid();
+
+            OudeBrouwers.Clear();
+            NieuweBrouwers.Clear();
+            GewijzigdeBrouwers.Clear();
         }
     }
 }

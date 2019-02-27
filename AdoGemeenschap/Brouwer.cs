@@ -8,25 +8,71 @@ namespace AdoGemeenschap
 {
     public class Brouwer
     {
+        public Brouwer() { }
         public Brouwer(Int32 brouwernr, string naam, string adres, Int16 postcode, string gemeente, Int32? omzet)
         {
-            brouwersNrValue = brouwernr;
+            BrouwerNr = brouwernr;
             Naam = naam;
             Adres = adres;
             Postcode = postcode;
             Gemeente = gemeente;
             Omzet = omzet;
+            Changed = false;
         }
-        private Int32 brouwersNrValue;
-        public Int32 BrouwerNr
+        public Int32 BrouwerNr { get; }
+        public bool Changed { get; set; }
+        private String naamValue;
+        public string Naam
         {
-            get { return brouwersNrValue; }
-
+            get
+            {
+                return naamValue;
+            }
+            set
+            {
+                naamValue = value;
+                Changed = true;
+            }
         }
-        public string Naam { get; set; }
-        public string Adres { get; set; }
-        public Int16 Postcode { get; set; }
-        public string Gemeente { get; set; }
+        private String adresValue;
+        public string Adres
+        {
+            get
+            {
+                return adresValue;
+            }
+            set
+            {
+                adresValue = value;
+                Changed = true;
+            }
+        }
+        private Int16 postcodeValue;
+        public Int16 Postcode
+        {
+            get
+            {
+                return postcodeValue;
+            }
+            set
+            {
+                postcodeValue = value;
+                Changed = true;
+            }
+        }
+        private String gemeenteValue;
+        public string Gemeente
+        {
+            get
+            {
+                return gemeenteValue;
+            }
+            set
+            {
+                gemeenteValue = value;
+                Changed = true;
+            }
+        }
         private Int32? omzetValue;
         public Int32? Omzet
         {
@@ -40,6 +86,7 @@ namespace AdoGemeenschap
                 else
                 {
                     omzetValue = value;
+                    Changed = true;
                 }
             }
         }

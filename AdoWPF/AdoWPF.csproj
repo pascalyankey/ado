@@ -57,6 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="IngevuldGroterDanNul.cs" />
     <Compile Include="KlantToevoegen.xaml.cs">
       <DependentUpon>KlantToevoegen.xaml</DependentUpon>
     </Compile>
@@ -139,6 +140,9 @@
       <Project>{9a2328dc-e847-43ea-bb7f-8751a2e6e3c7}</Project>
       <Name>AdoGemeenschap</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SaveHL.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
