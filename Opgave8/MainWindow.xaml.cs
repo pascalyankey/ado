@@ -48,9 +48,31 @@ namespace Opgave8
             }
         }
 
+        private void VulPlanten()
+        {
+            CollectionViewSource plantViewSource = ((CollectionViewSource)(this.FindResource("plantViewSource")));
+            var manager = new SoortenManager();
+            try
+            {
+                plantenOb = manager.GetPlanten((Int32)comboBoxSoort.SelectedValue);
+                plantViewSource.Source = plantenOb;
+                labelStatus.Content = "";
+            }
+            catch (Exception ex)
+            {
+                labelStatus.Content = ex.Message;
+            }
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             VulGrid();
+            comboBoxSoort.Focus();
+        }
+
+        private void ComboBoxSoort_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            VulPlanten();
             comboBoxSoort.Focus();
         }
     }

@@ -13,7 +13,7 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <Label Content="Kies een soort:" Margin="20" HorizontalAlignment="Left" />
-            <ComboBox DataContext="{StaticResource soortViewSource}" x:Name="comboBoxSoort" Margin="50 0 0 0" HorizontalAlignment="Right" Width="170" Height="25" DisplayMemberPath="Naam" ItemsSource="{Binding}" SelectedValue="SoortNr" />
+            <ComboBox DataContext="{StaticResource soortViewSource}" x:Name="comboBoxSoort" Margin="50 0 0 0" HorizontalAlignment="Right" Width="170" Height="25" DisplayMemberPath="Naam" ItemsSource="{Binding}" SelectedValuePath="SoortNr" SelectionChanged="ComboBoxSoort_SelectionChanged" />
         </StackPanel>
         <Label Name="labelStatus" Width="300" Height="30" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 0 0 0"/>
         <ListBox DataContext="{StaticResource plantViewSource}" Name="listBoxPlanten" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="320" Height="220" Margin="20 30 20 0" DisplayMemberPath="Naam" ItemsSource="{Binding}" />
