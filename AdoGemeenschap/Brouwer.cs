@@ -25,22 +25,7 @@ namespace AdoGemeenschap
         }
         public string Naam { get; set; }
         public string Adres { get; set; }
-        private Int16 postcodeValue;
-        public Int16 Postcode
-        {
-            get { return postcodeValue; }
-            set
-            {
-                if (value < 1000 || value > 9999)
-                {
-                    throw new Exception("Postcode moet tussen 1000 en 9999 liggen");
-                }
-                else
-                {
-                    postcodeValue = value;
-                }
-            }
-        }
+        public Int16 Postcode { get; set; }
         public string Gemeente { get; set; }
         private Int32? omzetValue;
         public Int32? Omzet
