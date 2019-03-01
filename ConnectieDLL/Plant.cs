@@ -16,12 +16,38 @@ namespace ConnectieDLL
             Levnr = levnr;
             Kleur = kleur;
             VerkoopPrijs = verkoopprijs;
+            Changed = false;
         }
+        public bool Changed { get; set; }
         public Int32 PlantNr { get; }
         public string Naam { get; set; }
         public Int32 SoortNr { get; set; }
-        public Int32 Levnr { get; set; }
-        public string Kleur { get; set; }
-        public Decimal VerkoopPrijs { get; set; }
+        public Int32 Levnr { get; }
+        private string kleurValue;
+        public string Kleur
+        {
+            get
+            {
+                return kleurValue;
+            }
+            set
+            {
+                kleurValue = value;
+                Changed = true;
+            }
+        }
+        private Decimal verkoopprijsValue;
+        public Decimal VerkoopPrijs
+        {
+            get
+            {
+                return verkoopprijsValue;
+            }
+            set
+            {
+                verkoopprijsValue = value;
+                Changed = true;
+            }
+        }
     }
 }

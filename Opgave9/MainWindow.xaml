@@ -1,0 +1,72 @@
+﻿<Window x:Class="Opgave9.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:ConnectieDLL="clr-namespace:ConnectieDLL;assembly=ConnectieDLL"
+        xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
+        xmlns:local="clr-namespace:Opgave9"
+        mc:Ignorable="d"
+        Title="WPFOpgave9" Width="480" Height="430" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="soortViewSource" d:DesignSource="{d:DesignInstance {x:Type ConnectieDLL:Soort}, CreateList=True}"/>
+        <CollectionViewSource x:Key="plantViewSource" d:DesignSource="{d:DesignInstance {x:Type ConnectieDLL:Plant}, CreateList=True}"/>
+        <ControlTemplate x:Key="validationTemplate">
+            <StackPanel Orientation="Vertical">
+                <AdornedElementPlaceholder/>
+                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
+            </StackPanel>
+        </ControlTemplate>
+    </Window.Resources>
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Kies een soort:" Margin="20" HorizontalAlignment="Left" />
+            <ComboBox DataContext="{StaticResource soortViewSource}" x:Name="comboBoxSoort" Margin="70 0 0 0" HorizontalAlignment="Right" Width="250" Height="25" DisplayMemberPath="Naam" ItemsSource="{Binding}" SelectedValuePath="SoortNr" SelectionChanged="ComboBoxSoort_SelectionChanged" PreviewMouseDown="ComboBoxSoort_PreviewMouseDown" />
+        </StackPanel>
+        <Label Name="labelStatus" Width="420" Height="30" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 0 0 10"/>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel HorizontalAlignment="Left" Width="200">
+                <ListBox DataContext="{StaticResource plantViewSource}" Name="listBoxPlanten" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="150" Height="220" Margin="20 0 20 0" DisplayMemberPath="Naam" ItemsSource="{Binding}" PreviewMouseDown="ListBoxPlanten_PreviewMouseDown" />
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right">
+                <Grid x:Name="grid1" DataContext="{StaticResource plantViewSource}" Width="250">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Plantnummer:" Grid.Column="0" HorizontalAlignment="Left" Margin="10" Grid.Row="0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="plantNrTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="10" Grid.Row="0" IsReadOnly="True" Text="{Binding PlantNr, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="100"/>
+                    <Label Content="Leverancier:" Grid.Column="0" HorizontalAlignment="Left" Margin="10" Grid.Row="1" VerticalAlignment="Center"/>
+                    <TextBox x:Name="leverancierTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="10" Grid.Row="1" IsReadOnly="True" Text="{Binding Levnr, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="100"/>
+                    <Label Content="Kleur:" Grid.Column="0" HorizontalAlignment="Left" Margin="10" Grid.Row="2" VerticalAlignment="Center"/>
+                    <TextBox x:Name="kleurTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="10" Grid.Row="2" VerticalAlignment="Center" Width="100" Validation.ErrorTemplate="{StaticResource validationTemplate}">
+                        <TextBox.Text>
+                            <Binding Path="Kleur" ValidatesOnDataErrors="True" ValidatesOnNotifyDataErrors="True" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <local:KleurRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <Label Content="Prijs:" Grid.Column="0" HorizontalAlignment="Left" Margin="10" Grid.Row="5" VerticalAlignment="Center"/>
+                    <TextBox x:Name="prijsTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="10" Grid.Row="5" VerticalAlignment="Center" Width="100" Validation.ErrorTemplate="{StaticResource validationTemplate}">
+                        <TextBox.Text>
+                            <Binding Path="VerkoopPrijs" ValidatesOnDataErrors="True" ValidatesOnNotifyDataErrors="True" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ConverterCulture="{x:Static glob:CultureInfo.CurrentCulture}" StringFormat="c">
+                                <Binding.ValidationRules>
+                                    <local:PrijsRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+        <Button Name="opslaanButton" Content="Opslaan" Width="250" Height="30" Margin="25" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="OpslaanButton_Click"></Button>
+    </StackPanel>
+</Window>

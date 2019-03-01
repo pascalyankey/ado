@@ -5,14 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.Common;
+using System.Collections.ObjectModel;
 
 namespace ConnectieDLL
 {
     public class SoortenManager
     {
-        public List<Soort> GetSoorten()
+        public ObservableCollection<Soort> GetSoorten()
         {
-            var soorten = new List<Soort>();
+            var soorten = new ObservableCollection<Soort>();
             var manager = new TuincentrumDbManager();
 
             using (var conTuincentrum = manager.GetConnection())
@@ -40,9 +41,9 @@ namespace ConnectieDLL
             return soorten;
         }
 
-        public List<Plant> GetPlanten(Int32 soortNr)
+        public ObservableCollection<Plant> GetPlanten(Int32 soortNr)
         {
-            var planten = new List<Plant>();
+            var planten = new ObservableCollection<Plant>();
             var manager = new TuincentrumDbManager();
 
             using (var conTuincentrum = manager.GetConnection())
@@ -84,6 +85,55 @@ namespace ConnectieDLL
                 }
             }
             return planten;
+        }
+
+        public List<Plant> SchrijfWijzigingen(List<Plant> planten)
+        {
+            var nietDoorgevoerdePlanten = new List<Plant>();
+            var manager = new TuincentrumDbManager();
+            using (var conTuincentrum = manager.GetConnection())
+            {
+                using (var comUpdate = conTuincentrum.CreateCommand())
+                {
+                    comUpdate.CommandType = CommandType.Text;
+                    comUpdate.CommandText = "update Planten set Kleur=@kleur, VerkoopPrijs=@verkoopprijs where SoortNr=@soortnr and Naam=@naam";
+
+                    var parKleur = comUpdate.CreateParameter();
+                    parKleur.ParameterName = "@kleur";
+                    comUpdate.Parameters.Add(parKleur);
+
+                    var parVerkoopPrijs = comUpdate.CreateParameter();
+                    parVerkoopPrijs.ParameterName = "@verkoopprijs";
+                    comUpdate.Parameters.Add(parVerkoopPrijs);
+
+                    var parSoortNr = comUpdate.CreateParameter();
+                    parSoortNr.ParameterName = "@soortnr";
+                    comUpdate.Parameters.Add(parSoortNr);
+
+                    var parNaam = comUpdate.CreateParameter();
+                    parNaam.ParameterName = "@naam";
+                    comUpdate.Parameters.Add(parNaam);
+
+                    conTuincentrum.Open();
+                    foreach (Plant eenPlant in planten)
+                    {
+                        try
+                        {
+                            parKleur.Value = eenPlant.Kleur;
+                            parVerkoopPrijs.Value = eenPlant.VerkoopPrijs;
+                            parSoortNr.Value = eenPlant.SoortNr;
+                            parNaam.Value = eenPlant.Naam;
+                            if (comUpdate.ExecuteNonQuery() == 0)
+                                nietDoorgevoerdePlanten.Add(eenPlant);
+                        }
+                        catch (Exception)
+                        {
+                            nietDoorgevoerdePlanten.Add(eenPlant);
+                        }
+                    }
+                }
+            }
+            return nietDoorgevoerdePlanten;
         }
     }
 }
