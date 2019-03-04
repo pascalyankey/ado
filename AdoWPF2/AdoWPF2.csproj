@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{08D281D9-8481-4191-81B2-B4329C91B39F}</ProjectGuid>
+    <ProjectGuid>{B8754212-3EF2-43C0-BE3A-4DA205C0D353}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>AdoWPF</RootNamespace>
-    <AssemblyName>AdoWPF</AssemblyName>
+    <RootNamespace>AdoWPF2</RootNamespace>
+    <AssemblyName>AdoWPF2</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -36,9 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -57,28 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="IngevuldGroterDanNul.cs" />
-    <Compile Include="KlantToevoegen.xaml.cs">
-      <DependentUpon>KlantToevoegen.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OverzichtBrouwers.xaml.cs">
-      <DependentUpon>OverzichtBrouwers.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PostcodeRangeRule0.cs" />
-    <Compile Include="PostcodeRangeRule.cs" />
-    <Compile Include="RekeningInfoRaadplegen.xaml.cs">
-      <DependentUpon>RekeningInfoRaadplegen.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SaldoRekeningRaadplegen.xaml.cs">
-      <DependentUpon>SaldoRekeningRaadplegen.xaml</DependentUpon>
-    </Compile>
     <Compile Include="StripFiguren.xaml.cs">
       <DependentUpon>StripFiguren.xaml</DependentUpon>
     </Compile>
-    <Page Include="KlantToevoegen.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -91,31 +70,12 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Overschrijven.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="OverzichtBrouwers.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="RekeningInfoRaadplegen.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SaldoRekeningRaadplegen.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="StripFiguren.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Overschrijven.xaml.cs">
-      <DependentUpon>Overschrijven.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -133,8 +93,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Properties\DataSources\AdoGemeenschap.Brouwer.datasource" />
-    <None Include="Properties\DataSources\AdoGemeenschap.Figuur.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -148,9 +106,6 @@
       <Project>{9a2328dc-e847-43ea-bb7f-8751a2e6e3c7}</Project>
       <Name>AdoGemeenschap</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\SaveHL.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
