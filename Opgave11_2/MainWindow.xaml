@@ -1,0 +1,35 @@
+﻿<Window x:Class="Opgave11_2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Opgave11_2"
+        xmlns:ConnectieDLL="clr-namespace:ConnectieDLL;assembly=ConnectieDLL"
+        mc:Ignorable="d"
+        Title="Leveranciers" SizeToContent="WidthAndHeight" Height="auto" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Window.Resources>
+        <CollectionViewSource x:Key="leverancierViewSource" d:DesignSource="{d:DesignInstance {x:Type ConnectieDLL:Leverancier}, CreateList=True}"/>
+    </Window.Resources>
+    <DockPanel LastChildFill="True">
+        <Border DockPanel.Dock="Top">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Kies postnummer" Width="150" Height="30"/>
+                <ComboBox x:Name="comboBoxPostNrs" Width="100" SelectionChanged="ComboBoxPostNrs_SelectionChanged"/>
+            </StackPanel>
+        </Border>
+        <Border DataContext="{StaticResource leverancierViewSource}" Background="SkyBlue" BorderThickness="1" DockPanel.Dock="Top">
+            <DataGrid x:Name="leverancierDataGrid" EnableRowVirtualization="True" ItemsSource="{Binding}" RowDetailsVisibilityMode="VisibleWhenSelected" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn x:Name="levNrColumn" Binding="{Binding LevNr}" Header="Lev Nr" IsReadOnly="True"/>
+                    <DataGridTextColumn x:Name="naamColumn" Binding="{Binding Naam}" Header="Naam"/>
+                    <DataGridTextColumn x:Name="adresColumn" Binding="{Binding Adres}" Header="Adres"/>
+                    <DataGridTextColumn x:Name="postNrColumn" Binding="{Binding PostNr}" Header="Post Nr"/>
+                    <DataGridTextColumn x:Name="woonplaatsColumn" Binding="{Binding Woonplaats}" Header="Woonplaats"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+        <Border DockPanel.Dock="Bottom" Height="50" VerticalAlignment="Bottom">
+            <Button Name="buttonSave" Content="Save" Height="20" Width="100" Click="ButtonSave_Click" />
+        </Border>
+    </DockPanel>
+</Window>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,8 +27,8 @@ namespace Opgave8
             InitializeComponent();
         }
 
-        public List<Soort> soortenOb = new List<Soort>();
-        public List<Plant> plantenOb = new List<Plant>();
+        public ObservableCollection<Soort> soortenOb = new ObservableCollection<Soort>();
+        public ObservableCollection<Plant> plantenOb = new ObservableCollection<Plant>();
 
         private void VulGrid()
         {
